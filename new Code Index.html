@@ -1,0 +1,58 @@
+
+function gem(tile) {  
+  changeTile(tile,dirt);
+  speechText(gemText,250);
+  sndEffects(1);  
+  scoreCalc(gemPoints);
+  gemcount++;
+  $('.gemcount').text(gemcount); 
+  $(tile).append("<img class='gem' src='http://adrianpayne.me/game/assets/images/gem.png' />");
+  $(tile).find('.gem').animate({top:"-30px",opacity:"0"},700);
+  setTimeout(function() {
+     $('img:last-child', tile).remove();
+  }, 800); 
+}
+
+function chest(tile) {  
+  changeTile(tile,stone);
+  $(tile).append("<div class='chest chest-closed'></div>");
+  chestCount = 1;
+  sndEffects(0);
+  
+  $(".chest").click(function(){
+  $(this).unbind();
+  $(this).addClass('chest-open').removeClass('chest-closed');
+  $(this).append("<img class='star' src='http://adrianpayne.me/game/assets/images/star.png' />");
+    $(this).find('.star').animate({top:"-40px",opacity:"0"},800);
+  $('.starcount').text(1); 
+  speechText(chestText,300);
+  sndEffects(1);
+  scoreCalc(chestPoints);
+  $(this).delay(200).fadeOut("slow");
+  });  
+}
+
+function changeTile(tile, type){
+  $(tile).removeClass(defaultTile).addClass(type).addClass("off");
+}
+
+function sndEffects(loot) {  
+  $("#pop-" + Math.ceil(Math.random() * 2))[0].play();
+  if(loot){
+  $("#gemfind")[0].play();  
+  }
+}
+
+function speechText(text,delay){
+  $('.speech-bubble').stop(true, false).animate({opacity:"1"},200);
+  $('.speech-bubble').text(text);
+  $('.speech-bubble').delay(delay).animate({opacity:"0"},40);
+}
+
+function scoreCalc(points) {
+  score += points;
+  $('.score').text(score); 
+}
+
+
+Resources
